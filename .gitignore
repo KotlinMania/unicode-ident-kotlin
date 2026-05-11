@@ -47,3 +47,4 @@ __pycache__/
 *.pyc
 /.android-sdk/.knownPackages
 /.android-sdk/
+local.properties

@@ -69,8 +69,8 @@ jobs:
             build-mode: none
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
 
       # JDK + Gradle setup only for java-kotlin; the source-only languages
       # don't run any build at all.

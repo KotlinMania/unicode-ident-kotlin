@@ -48,14 +48,14 @@ package io.github.kotlinmania.unicodeident
  * | **`fst`** | 144 K | 22.0 ns | 21.9 ns | 20.9 ns | 10.5 ns |
  * | **`roaring`** | 66.1 K | 1.91 ns | 1.90 ns | 1.94 ns | 2.67 ns |
  *
- * Source code for the benchmark is provided in the *bench* directory of this
- * repo and may be repeated by running `cargo criterion`.
+ * Source code for the benchmark is provided in the *bench* directory of the
+ * upstream repo and may be repeated by running `cargo criterion`.
  *
  * <br>
  *
  * ## Comparison of data structures
  *
- * #### unicode-xid
+* #### unicode-xid
  *
  * They use a sorted array of character ranges, and do a binary search to look
  * up whether a given character lands inside one of those ranges.
@@ -65,13 +65,16 @@ package io.github.kotlinmania.unicodeident
  *     Pair('\u0030', '\u0039'),  // 0-9
  *     Pair('\u0041', '\u005A'),  // A-Z
  *     // …
- *     Pair('\uE0100', '\uE01EF'),
+ *     Pair('\uE0100', '\uE01EF'),  // beyond BMP, needs Int codepoint
  * )
  * ```
  *
  * The static storage used by this data structure scales with the number of
  * contiguous ranges of identifier codepoints in Unicode. Every table entry
- * consumes 8 bytes, because it consists of a pair of 32-bit [Char] values.
+ * consumes 8 bytes, because the upstream Rust crate `unicode-xid` stores each
+ * entry as a pair of 32-bit `char` values (Rust `char` is a 21-bit code point
+ * padded to 32 bits; Kotlin [Char] is a 16-bit UTF-16 code unit, so
+ * supplementary entries like U+E0100 would need an `Int`-based representation).
  *
  * In some ranges of the Unicode codepoint space, this is quite a sparse
  * representation &mdash; there are some ranges where tens of thousands of
@@ -89,11 +92,11 @@ package io.github.kotlinmania.unicodeident
  * compared to the fastest implementation.
  *
  * A potential improvement would be to pack the table entries more compactly.
- * A [Char] is a 21-bit integer padded to 32 bits, which means every table
+ * Rust's `char` is a 21-bit integer padded to 32 bits, which means every table
  * entry is holding 22 bits of wasted space, adding up to 3.9 K. They could
  * instead fit every table entry into 6 bytes, leaving out some of the
- * padding, for a 25% improvement in space used. With some cleverness it may be
- * possible to fit in 5 bytes or even 4 bytes by storing a low char and an
+ * padding, for a 25% improvement in space used. With some cleverness it may
+ * be possible to fit in 5 bytes or even 4 bytes by storing a low char and an
  * extent, instead of low char and high char. Performance would likely not
  * improve much but this could be the most efficient for space across all the
  * libraries, needing only about 7 K to store.
@@ -137,7 +140,7 @@ package io.github.kotlinmania.unicodeident
  * search. A lookup touches either 1, 2, or 3 cache lines based on which of
  * the trie partitions is being accessed.
  *
- * One possible performance improvement would be for this implementation to
+ * One possible performance improvement would be for `ucd-trie` to
  * expose a way to query based on a UTF-8 encoded string, returning the
  * Unicode property corresponding to the first character in the string. Without
  * such an API, the caller is required to tokenize their UTF-8 encoded input
@@ -148,21 +151,21 @@ package io.github.kotlinmania.unicodeident
  * #### fst
  *
  * Uses a [finite state transducer][fst]. This representation is built into
- * [ucd-generate] but I am not aware of any advantage over the `ucd-trie`
- * representation. In particular `ucd-trie` is optimized for storing Unicode
- * properties while `fst` is not.
+ * [`ucd-generate`] but the upstream author is not aware of any advantage over
+ * the `ucd-trie` representation. In particular `ucd-trie` is optimized for
+ * storing Unicode properties while `fst` is not.
  *
  * [fst]: https://github.com/BurntSushi/fst
  *
- * As far as I can tell, the main thing that causes `fst` to have large size
- * and slow lookups for this use case relative to `ucd-trie` is that it does
- * not specialize for the fact that only 21 of the 32 bits in a [Char] are
+ * The main thing that appears to cause `fst` to have large size and slow
+ * lookups for this use case relative to `ucd-trie` is that it does not
+ * specialize for the fact that only 21 of the 32 bits in a Rust `char` are
  * meaningful. There are some dense arrays in the structure with large ranges
  * that could never possibly be used.
  *
  * #### roaring
  *
- * This implementation is a pure-Rust implementation of [Roaring Bitmap], a data
+ * The `roaring` crate is a pure-Rust implementation of [Roaring Bitmap], a data
  * structure designed for storing sets of 32-bit unsigned integers.
  *
  * [Roaring Bitmap]: https://roaringbitmap.org/about/
@@ -177,16 +180,15 @@ package io.github.kotlinmania.unicodeident
  * the compression was significantly worse, requiring 6× as much storage for
  * the data structure.
  *
- * I also benchmarked the [`croaring`] implementation which is an FFI wrapper
- * around the C reference implementation of Roaring Bitmap. It was consistently
+ * The [`croaring`] crate is an FFI wrapper around the C reference
+ * implementation of Roaring Bitmap. The upstream benchmark found it consistently
  * about 15% slower than pure-Rust `roaring`, which could just be FFI overhead.
- * I did not investigate further.
  *
  * [`croaring`]: https://crates.io/crates/croaring
  *
  * #### unicode-ident
  *
- * This implementation is most similar to the `ucd-trie` library, in that it's
+ * The `unicode-ident` crate is most similar to the `ucd-trie` library, in that it's
  * based on bitmaps stored in the leaves of a trie representation, achieving
  * both prefix compression and suffix compression.
  *
@@ -215,7 +217,7 @@ package io.github.kotlinmania.unicodeident
  * between the two bitmaps and across the rows, which lends well to
  * compression.
  *
- * This implementation stores one 512-bit "row" of the above bitmaps in the leaf
+ * `unicode-ident` stores one 512-bit "row" of the above bitmaps in the leaf
  * level of a trie, and a single additional level to index into the leaves.
  * There are 134 unique 512-bit chunks across the two bitmaps.
  *
@@ -233,7 +235,7 @@ package io.github.kotlinmania.unicodeident
  * using chunks which are half the size, because it does not necessitate raising
  * the size of the trie's first level.
  *
- * In contrast to binary search or the `ucd-trie` implementation, performing
+ * In contrast to binary search or the `ucd-trie` crate, performing
  * lookups in this data structure is straight-line code with no need for
  * branching.
  */

@@ -8,7 +8,7 @@ package io.github.kotlinmania.unicodeident
 // $ cargo run --manifest-path generate/Cargo.toml
 
 /**
- * Wrapper providing 8-byte alignment for the wrapped [ByteArray].
+ * Wrapper providing 8-byte alignment for the wrapped value.
  *
  * Kotlin has no alignment attribute; this wrapper preserves the
  * type structure for parity with the upstream data layout, where
@@ -18,7 +18,7 @@ package io.github.kotlinmania.unicodeident
 internal class Align8<T>(val value: T)
 
 /**
- * Wrapper providing 64-byte alignment for the wrapped [ByteArray].
+ * Wrapper providing 64-byte alignment for the wrapped value.
  *
  * Kotlin has no alignment attribute; this wrapper preserves the
  * type structure for parity with the upstream data layout, where
@@ -48,7 +48,7 @@ internal const val ASCII_START_LO: Long = 0L
 internal const val ASCII_CONTINUE_HI: Long = 576460745995190270L // 0x07FFFFFE87FFFFFE
 internal const val ASCII_CONTINUE_LO: Long = 287948901175001088L // 0x03FF000000000000
 
-/** Number of codepoints per chunk in the trie index (half-chunk size in bytes). */
+/** Size in bytes of one half-chunk (the granularity of the leaf-level half-chunk index). */
 internal const val CHUNK: Int = 64
 
 /** Constructs a [ByteArray] from integer values, truncating each to a byte. */

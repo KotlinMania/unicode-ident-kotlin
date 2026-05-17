@@ -51,6 +51,10 @@ package io.github.kotlinmania.unicodeident
  * Source code for the benchmark is provided in the *bench* directory of the
  * upstream repo and may be repeated by running `cargo criterion`.
  *
+ * **Note:** These numbers are from the upstream Rust crate's benchmarks,
+ * not measurements of this Kotlin port. Kotlin/JVM runtime characteristics
+ * (GC pauses, JIT warmup, bounds checks) will differ substantially.
+ *
  * <br>
  *
  * ## Comparison of data structures
@@ -253,9 +257,9 @@ fun isXidStart(ch: Char): Boolean {
         }
     }
     val cp = ch.code
-    val chunk = TRIE_START.value.getOrElse(cp / 8 / CHUNK) { zero }.toInt() and 0xFF
+    val chunk = TRIE_START.getOrElse(cp / 8 / CHUNK) { zero }.toInt() and 0xFF
     val offset = chunk * CHUNK / 2 + cp / 8 % CHUNK
-    return (LEAF.value[offset].toInt() and 0xFF) ushr (cp % 8) and 1 != 0
+    return (LEAF[offset].toInt() and 0xFF) ushr (cp % 8) and 1 != 0
 }
 
 /** Whether the character has the Unicode property XID_Continue. */
@@ -269,7 +273,7 @@ fun isXidContinue(ch: Char): Boolean {
         }
     }
     val cp = ch.code
-    val chunk = TRIE_CONTINUE.value.getOrElse(cp / 8 / CHUNK) { zero }.toInt() and 0xFF
+    val chunk = TRIE_CONTINUE.getOrElse(cp / 8 / CHUNK) { zero }.toInt() and 0xFF
     val offset = chunk * CHUNK / 2 + cp / 8 % CHUNK
-    return (LEAF.value[offset].toInt() and 0xFF) ushr (cp % 8) and 1 != 0
+    return (LEAF[offset].toInt() and 0xFF) ushr (cp % 8) and 1 != 0
 }

@@ -7,26 +7,6 @@ package io.github.kotlinmania.unicodeident
 // $ unzip UCD.zip -d UCD
 // $ cargo run --manifest-path generate/Cargo.toml
 
-/**
- * Wrapper providing 8-byte alignment for the wrapped value.
- *
- * Kotlin has no alignment attribute; this wrapper preserves the
- * type structure for parity with the upstream data layout, where
- * the corresponding type is a C-compatible struct with 8-byte
- * alignment containing a single public field of type [T].
- */
-internal class Align8<T>(val value: T)
-
-/**
- * Wrapper providing 64-byte alignment for the wrapped value.
- *
- * Kotlin has no alignment attribute; this wrapper preserves the
- * type structure for parity with the upstream data layout, where
- * the corresponding type is a C-compatible struct with 64-byte
- * alignment containing a single public field of type [T].
- */
-internal class Align64<T>(val value: T)
-
 /** Unicode version for which the tables were generated, as (major, minor, patch). */
 val UNICODE_VERSION: Triple<Byte, Byte, Byte> = Triple(17, 0, 0)
 
@@ -747,13 +727,17 @@ private fun leafPart15(): ByteArray = bytes(
     )
 
 /** First-level trie index for XID Start: each byte indexes into [LEAF] by half-chunk offset. */
-internal val TRIE_START: Align8<ByteArray> = Align8(trieStartData())
+internal val TRIE_START: ByteArray = trieStartData()
 
 /** First-level trie index for XID Continue: each byte indexes into [LEAF] by half-chunk offset. */
-internal val TRIE_CONTINUE: Align8<ByteArray> = Align8(trieContinueData())
+internal val TRIE_CONTINUE: ByteArray = trieContinueData()
 
-/** Leaf-level bitmap data storing 512-bit chunks for both XID Start and XID Continue. */
-internal val LEAF: Align64<ByteArray> = Align64(
+/**
+ * Leaf-level bitmap data storing 512-bit chunks for both XID Start and XID Continue.
+ *
+ * Upstream aligns this static to 64 bytes; Kotlin has no alignment attribute.
+ */
+internal val LEAF: ByteArray =
     leafPart0() +
     leafPart1() +
     leafPart2() +
@@ -770,4 +754,3 @@ internal val LEAF: Align64<ByteArray> = Align64(
     leafPart13() +
     leafPart14() +
     leafPart15()
-)

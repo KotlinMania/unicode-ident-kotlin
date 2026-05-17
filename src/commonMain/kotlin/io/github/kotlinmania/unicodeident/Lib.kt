@@ -5,7 +5,7 @@ package io.github.kotlinmania.unicodeident
  * [![github]](https://github.com/KotlinMania/unicode-ident-kotlin)&ensp;[![maven-central]](https://search.maven.org/artifact/io.github.kotlinmania/unicode-ident-kotlin)
  *
  * [github]: https://img.shields.io/badge/github-8da0cb?style=for-the-badge&labelColor=555555&logo=github
- * [maven-central]: https://img.shields.io/badge/maven--central-.fc8d62?style=for-the-badge&labelColor=555555&logo=apachemaven
+ * [maven-central]: https://img.shields.io/badge/maven--central-fc8d62?style=for-the-badge&labelColor=555555&logo=apachemaven
  *
  * Implementation of [Unicode Standard Annex #31][tr31] for determining which
  * [Char] values are valid in programming language identifiers.

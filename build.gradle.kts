@@ -28,9 +28,15 @@ val androidSdkDir: String? =
 
 if (androidSdkDir != null && file(androidSdkDir).exists()) {
     val localProperties = rootProject.file("local.properties")
-    if (!localProperties.exists()) {
+    val needsWrite = !localProperties.exists()
+        || localProperties.readLines()
+            .firstOrNull { it.startsWith("sdk.dir=") }
+            ?.removePrefix("sdk.dir=")
+            ?.let { !file(it).exists() }
+            ?: true
+    if (needsWrite) {
         val sdkDirPropertyValue = file(androidSdkDir).absolutePath.replace("\\", "/")
-        localProperties.writeText("sdk.dir=$sdkDirPropertyValue")
+        localProperties.writeText("sdk.dir=$sdkDirPropertyValue\n")
     }
 }
 

@@ -17,4 +17,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "unicode-ident"
+rootProject.name = "unicode-ident-kotlin"

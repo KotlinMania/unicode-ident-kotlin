@@ -33,7 +33,7 @@ package io.github.kotlinmania.unicodeident
  * implementation bakes into your binary, measured in 1000s of bytes.
  *
  * The remaining columns show the **cost per call** to evaluate whether a
- * single [Char] has the XID_Start or XID_Continue Unicode property, comparing
+ * single [Char] has the XID Start or XID Continue Unicode property, comparing
  * across different ratios of ASCII to non-ASCII codepoints in the input data.
  *
  * [`unicode-xid`]: https://github.com/unicode-rs/unicode-xid
@@ -201,18 +201,18 @@ package io.github.kotlinmania.unicodeident
  * - Uses a single 2-level trie, rather than 3 disjoint partitions of different
  *   depth each.
  * - Uses significantly larger chunks: 512 bits rather than 64 bits.
- * - Compresses the XID_Start and XID_Continue properties together
+ * - Compresses the XID Start and XID Continue properties together
  *   simultaneously, rather than duplicating identical trie leaf chunks across
  *   the two.
  *
- * The following diagram show the XID_Start and XID_Continue Unicode boolean
+ * The following diagram show the XID Start and XID Continue Unicode boolean
  * properties in uncompressed form, in row-major order:
  *
  * <table>
- * <tr><th>XID_Start</th><th>XID_Continue</th></tr>
+ * <tr><th>XID Start</th><th>XID Continue</th></tr>
  * <tr>
- * <td><img alt="XID_Start bitmap" width="256" src="https://user-images.githubusercontent.com/1940490/168647353-c6eeb922-afec-49b2-9ef5-c03e9d1e0760.png"></td>
- * <td><img alt="XID_Continue bitmap" width="256" src="https://user-images.githubusercontent.com/1940490/168647367-f447cca7-2362-4d7d-8cd7-d21c011d329b.png"></td>
+ * <td><img alt="XID Start bitmap" width="256" src="https://user-images.githubusercontent.com/1940490/168647353-c6eeb922-afec-49b2-9ef5-c03e9d1e0760.png"></td>
+ * <td><img alt="XID Continue bitmap" width="256" src="https://user-images.githubusercontent.com/1940490/168647367-f447cca7-2362-4d7d-8cd7-d21c011d329b.png"></td>
  * </tr>
  * </table>
  *
@@ -246,7 +246,7 @@ package io.github.kotlinmania.unicodeident
 
 private val zero: Byte = 0
 
-/** Whether the character has the Unicode property XID_Start. */
+/** Whether the character has the Unicode property XID Start. */
 fun isXidStart(ch: Char): Boolean {
     if (ch.code < 128) {
         val cp = ch.code
@@ -262,7 +262,7 @@ fun isXidStart(ch: Char): Boolean {
     return (LEAF[offset].toInt() and 0xFF) ushr (cp % 8) and 1 != 0
 }
 
-/** Whether the character has the Unicode property XID_Continue. */
+/** Whether the character has the Unicode property XID Continue. */
 fun isXidContinue(ch: Char): Boolean {
     if (ch.code < 128) {
         val cp = ch.code

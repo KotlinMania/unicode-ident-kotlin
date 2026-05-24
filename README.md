@@ -21,8 +21,8 @@ upstream Rust `fallback.rs`.
 ## Targets
 
 Kotlin Multiplatform: macOS arm64, Linux x64, mingw x64, iOS arm64 / x64 /
-simulator-arm64, JS (browser + Node), Wasm-JS (browser + Node), Android. There
-is no JVM-only target.
+simulator-arm64, JS (browser + Node), Wasm-JS (browser + Node), Android, and
+JVM.
 
 ## Build
 
@@ -42,6 +42,7 @@ Upstream README is preserved verbatim as [`README-UPSTREAM.md`](./README-UPSTREA
 
 ## Status
 
-Bootstrap. Build infrastructure seeded from `starlark-kotlin`; no Kotlin source
-code has been ported yet. The next pass translates `src/lib.rs` and `src/tables.rs`
-into the `commonMain` package.
+Initial `src/lib.rs` and generated-table coverage has been ported to
+`commonMain` as `Lib.kt` and `Tables.kt`, with shared tests in `commonTest`.
+The repo remains in parity mode; use `.ast_distance_config.json` and the
+repo-local docs before choosing the next source-porting slice.

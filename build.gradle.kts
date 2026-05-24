@@ -198,10 +198,18 @@ kotlin {
         binaries.framework { baseName = "UnicodeIdent"; xcf.add(this) }
     }
     iosSimulatorArm64 {
-        binaries.framework { baseName = "UnicodeIdent"; xcf.add(this) }
+        binaries.framework {
+            baseName = "UnicodeIdent"
+            isStatic = true
+            xcf.add(this)
+        }
     }
     iosX64 {
-        binaries.framework { baseName = "UnicodeIdent"; xcf.add(this) }
+        binaries.framework {
+            baseName = "UnicodeIdent"
+            isStatic = true
+            xcf.add(this)
+        }
     }
 
     tvosArm64 {

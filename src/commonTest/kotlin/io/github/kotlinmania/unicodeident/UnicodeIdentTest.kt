@@ -67,4 +67,8 @@ class UnicodeIdentTest {
         assertEquals(0, minor.toInt())
         assertEquals(0, patch.toInt())
     }
+
+    // compare.rs also cross-validates isXidStart/isXidContinue against the
+    // fst, roaring, ucd-trie, and unicode-xid Rust crates; those crates have
+    // no Kotlin sibling ports, so the cross-validation subset is not ported.
 }

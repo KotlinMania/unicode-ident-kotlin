@@ -40,9 +40,11 @@ combination applies to this port. License texts are mirrored from upstream as
 
 Upstream README is preserved verbatim as [`README-UPSTREAM.md`](./README-UPSTREAM.md).
 
-## Status
+## Installation
 
-Initial `src/lib.rs` and generated-table coverage has been ported to
-`commonMain` as `Lib.kt` and `Tables.kt`, with shared tests in `commonTest`.
-The repo remains in parity mode; use `.ast_distance_config.json` and the
-repo-local docs before choosing the next source-porting slice.
+```kotlin
+// build.gradle.kts
+commonMain.dependencies {
+    implementation("io.github.kotlinmania:unicode-ident-kotlin:0.1.0")
+}
+```

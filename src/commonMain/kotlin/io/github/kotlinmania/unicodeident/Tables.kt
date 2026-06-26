@@ -1,4 +1,17 @@
 // port-lint: source tables.rs
+@file:Suppress(
+    "ktlint:standard:class-signature",
+    "ktlint:standard:no-multi-spaces",
+    "ktlint:standard:function-literal",
+    "ktlint:standard:wrapping",
+    "ktlint:standard:multiline-expression-wrapping",
+    "ktlint:standard:statement-wrapping",
+    "ktlint:standard:indent",
+    "ktlint:standard:argument-list-wrapping",
+    "ktlint:standard:trailing-comma-on-call-site",
+    "ktlint:standard:no-blank-line-before-rbrace",
+)
+
 package io.github.kotlinmania.unicodeident
 
 // Generated data tables. To regenerate from Unicode data, run the

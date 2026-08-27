@@ -756,6 +756,7 @@ tasks.register("swiftExportSmokeTest") {
                 .get()
                 .asFile
                 .absolutePath
+        File(swiftBuildDir).deleteRecursively()
         execOperations
             .exec {
                 workingDir = projectDir

@@ -1,4 +1,4 @@
-// port-lint: source tests/compare.rs
+// port-lint: tests tests/compare.rs
 package io.github.kotlinmania.unicodeident
 
 import kotlin.test.Test

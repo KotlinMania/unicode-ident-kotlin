@@ -68,3 +68,5 @@ DerivedData/
 *.xcuserstate
 *.xcworkspace/xcuserdata/
 *.xcodeproj/xcuserdata/
+tools/ast_distance
+deep_symbol_inventory.txt

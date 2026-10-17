@@ -1,4 +1,3 @@
-// port-lint: source lib.rs
 package io.github.kotlinmania.unicodeident
 
 /**
@@ -59,7 +58,7 @@ package io.github.kotlinmania.unicodeident
  *
  * ## Comparison of data structures
  *
-* #### unicode-xid
+ * #### unicode-xid
  *
  * They use a sorted array of character ranges, and do a binary search to look
  * up whether a given character lands inside one of those ranges.
@@ -244,36 +243,34 @@ package io.github.kotlinmania.unicodeident
  * branching.
  */
 
-private val zero: Byte = 0
+private const val ZERO_BYTE: Byte = 0
 
 /** Whether the character has the Unicode property XID Start. */
 fun isXidStart(ch: Char): Boolean {
-    if (ch.code < 128) {
-        val cp = ch.code
+    val cp = ch.code
+    if (cp < 128) {
         return if (cp < 64) {
             (ASCII_START_LO ushr cp) and 1L != 0L
         } else {
             (ASCII_START_HI ushr (cp - 64)) and 1L != 0L
         }
     }
-    val cp = ch.code
-    val chunk = TRIE_START.getOrElse(cp / 8 / CHUNK) { zero }.toInt() and 0xFF
+    val chunk = TRIE_START.getOrElse(cp / 8 / CHUNK) { ZERO_BYTE }.toInt() and 0xFF
     val offset = chunk * CHUNK / 2 + cp / 8 % CHUNK
     return (LEAF[offset].toInt() and 0xFF) ushr (cp % 8) and 1 != 0
 }
 
 /** Whether the character has the Unicode property XID Continue. */
 fun isXidContinue(ch: Char): Boolean {
-    if (ch.code < 128) {
-        val cp = ch.code
+    val cp = ch.code
+    if (cp < 128) {
         return if (cp < 64) {
             (ASCII_CONTINUE_LO ushr cp) and 1L != 0L
         } else {
             (ASCII_CONTINUE_HI ushr (cp - 64)) and 1L != 0L
         }
     }
-    val cp = ch.code
-    val chunk = TRIE_CONTINUE.getOrElse(cp / 8 / CHUNK) { zero }.toInt() and 0xFF
+    val chunk = TRIE_CONTINUE.getOrElse(cp / 8 / CHUNK) { ZERO_BYTE }.toInt() and 0xFF
     val offset = chunk * CHUNK / 2 + cp / 8 % CHUNK
     return (LEAF[offset].toInt() and 0xFF) ushr (cp % 8) and 1 != 0
 }

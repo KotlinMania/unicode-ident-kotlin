@@ -20,11 +20,14 @@ upstream Rust `fallback.rs`.
 
 ## Targets
 
-Kotlin Multiplatform: macOS arm64, Linux x64, mingw x64, iOS arm64 / x64 /
-simulator-arm64, JS (browser + Node), Wasm-JS (browser + Node), Android, and
-JVM.
+Kotlin Multiplatform: macOS ARM64; Linux x64/ARM64; Windows x64;
+iOS, tvOS, and watchOS ARM64 device and simulator targets; Android Native
+ARM64/x64; JS and Wasm-JS (browser + Node); Wasm-WASI; Android; and JVM.
 
 ## Build
+
+Swift Export and its test harness require macOS 15 or newer. The Swift
+workflow uses the current template’s macOS 26 runner for its Xcode SDK.
 
 ```bash
 ./gradlew build

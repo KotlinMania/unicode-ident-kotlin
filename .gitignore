@@ -1,8 +1,3 @@
-/target/
-Cargo.lock
-*.wasm
-rust-source/
-
 # Kotlin/Gradle build artifacts
 build/
 .gradle/
@@ -14,28 +9,33 @@ build/
 
 # Keep the Gradle wrapper jar checked in so CI can run `./gradlew`.
 !gradle/wrapper/gradle-wrapper.jar
+
+# IDE
 .idea/
 *.iml
 out/
-tmp/
 
-# AST distance tool reports
+# Upstream Rust source — clone freshly when porting begins
+tmp/
+!tmp/.gitkeep
+
+# AST distance reports and binaries
 port_status_report.md
 high_priority_ports.md
-ast_distance_starlark_strict_output.txt
-
-# AST distance agent state and lock files
+NEXT_ACTIONS.md
+port_lint_proposed_changes.md
+ast_distance_*.txt
 .cache/
 *.lock
 kotlin-js-store/*
-!kotlin-js-store/yarn.lock
 !kotlin-js-store/package.json
+!kotlin-js-store/yarn.lock
 !kotlin-js-store/wasm/
 !kotlin-js-store/wasm/yarn.lock
-
-# AST distance compiled binary (CMake output, rebuild from source)
 tools/ast_distance/ast_distance
 tools/ast_distance/build/
+tools/ast_distance
+tools/
 
 # JVM heap dumps
 *.hprof
@@ -44,12 +44,14 @@ java_pid*.hprof
 # macOS Finder metadata
 .DS_Store
 
-# Python bytecode caches
+# Python bytecode
 __pycache__/
 *.pyc
-/.android-sdk/.knownPackages
+
+# Android SDK
 /.android-sdk/
 local.properties
+
 # Swift Package Manager / Xcode workspace state.
 #
 # `swift-test-harness/` is a real SPM package that exercises the Kotlin
@@ -68,5 +70,9 @@ DerivedData/
 *.xcuserstate
 *.xcworkspace/xcuserdata/
 *.xcodeproj/xcuserdata/
-tools/ast_distance
-deep_symbol_inventory.txt
+local.properties
+
+# npm install output; JS dependencies come from yarn via the Kotlin Gradle plugin
+node_modules/
+package-lock.json
+!native/node-ffi/package-lock.json

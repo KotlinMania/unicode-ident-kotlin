@@ -70,7 +70,6 @@ DerivedData/
 *.xcuserstate
 *.xcworkspace/xcuserdata/
 *.xcodeproj/xcuserdata/
-local.properties
 
 # npm install output; JS dependencies come from yarn via the Kotlin Gradle plugin
 node_modules/

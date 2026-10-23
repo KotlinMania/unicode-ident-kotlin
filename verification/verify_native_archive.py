@@ -74,6 +74,7 @@ def verify(archive, target, object_file=None):
 
 
 def main():
+    global report
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
     parser.add_argument("--target", required=True, choices=MACHINES)

@@ -1,3 +1,5 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode.PREFER_SETTINGS
+
 pluginManagement {
     repositories {
         google()
@@ -24,7 +26,7 @@ dependencyResolutionManagement {
         // "added by unknown code" and breaks kotlinNodeJsSetup. PREFER_SETTINGS
         // keeps every dependency resolution routed through the settings repos
         // below while ignoring project-level additions instead of failing.
-        repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+        repositoriesMode.set(PREFER_SETTINGS)
     }
     repositories {
         if (localMavenValidation) {

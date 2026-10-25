@@ -68,6 +68,34 @@ class UnicodeIdentTest {
         assertEquals(0, patch.toInt())
     }
 
+    @Test
+    fun scalarApiUsesTheExistingTablesBeyondUtf16Char() {
+        assertTrue(isXidStartCodePoint(0x10400)) // Deseret capital letter long I
+        assertTrue(isXidContinueCodePoint(0x10400))
+        assertFalse(isXidStartCodePoint(0x1D7CE)) // Mathematical bold digit zero
+        assertTrue(isXidContinueCodePoint(0x1D7CE))
+        assertFalse(isXidStartCodePoint(0x1F600)) // Grinning face
+        assertFalse(isXidContinueCodePoint(0x1F600))
+        assertFalse(isXidStartCodePoint(0xE0100)) // Variation selector
+        assertTrue(isXidContinueCodePoint(0xE0100))
+    }
+
+    @Test
+    fun invalidScalarValuesAreRejected() {
+        for (cp in listOf(Int.MIN_VALUE, -1, 0xD800, 0xDBFF, 0xDC00, 0xDFFF, 0x110000, Int.MAX_VALUE)) {
+            assertFalse(isXidStartCodePoint(cp), cp.toString())
+            assertFalse(isXidContinueCodePoint(cp), cp.toString())
+        }
+    }
+
+    @Test
+    fun charApiRetainsItsBmpBehavior() {
+        for (ch in listOf('\u0000', 'A', '0', '_', '\u00E9', '\u0301', '\u4E2D', '\uD7FF', '\uD800', '\uDFFF', '\uE000', '\uFFFF')) {
+            assertEquals(isXidStartCodePoint(ch.code), isXidStart(ch))
+            assertEquals(isXidContinueCodePoint(ch.code), isXidContinue(ch))
+        }
+    }
+
     // compare.rs also cross-validates isXidStart/isXidContinue against the
     // fst, roaring, ucd-trie, and unicode-xid Rust crates; those crates have
     // no Kotlin sibling ports, so the cross-validation subset is not ported.

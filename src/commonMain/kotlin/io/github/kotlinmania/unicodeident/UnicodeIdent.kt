@@ -246,8 +246,15 @@ package io.github.kotlinmania.unicodeident
 private const val ZERO_BYTE: Byte = 0
 
 /** Whether the character has the Unicode property XID Start. */
-fun isXidStart(ch: Char): Boolean {
-    val cp = ch.code
+fun isXidStart(ch: Char): Boolean = isXidStartCodePoint(ch.code)
+
+/**
+ * Whether a Unicode scalar has XID_Start. Rust `char` covers supplementary
+ * scalars too; Kotlin `Char` covers only one UTF-16 code unit. Invalid scalar
+ * values return false. The lookup uses the same upstream Unicode tables.
+ */
+fun isXidStartCodePoint(cp: Int): Boolean {
+    if (cp !in 0..0x10FFFF || cp in 0xD800..0xDFFF) return false
     if (cp < 128) {
         return if (cp < 64) {
             (ASCII_START_LO ushr cp) and 1L != 0L
@@ -261,8 +268,11 @@ fun isXidStart(ch: Char): Boolean {
 }
 
 /** Whether the character has the Unicode property XID Continue. */
-fun isXidContinue(ch: Char): Boolean {
-    val cp = ch.code
+fun isXidContinue(ch: Char): Boolean = isXidContinueCodePoint(ch.code)
+
+/** Whether a Unicode scalar has XID_Continue; invalid scalar values return false. */
+fun isXidContinueCodePoint(cp: Int): Boolean {
+    if (cp !in 0..0x10FFFF || cp in 0xD800..0xDFFF) return false
     if (cp < 128) {
         return if (cp < 64) {
             (ASCII_CONTINUE_LO ushr cp) and 1L != 0L

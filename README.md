@@ -13,6 +13,11 @@ import io.github.kotlinmania.unicodeident.isXidStart
 import io.github.kotlinmania.unicodeident.isXidContinue
 ```
 
+For a full Rust `char` represented as an integer Unicode scalar, use
+`isXidStartCodePoint(Int)` and `isXidContinueCodePoint(Int)`. These use the same
+tables, including supplementary planes. Invalid scalar values return false;
+the existing `Char` entry points remain available.
+
 This port is consumed by [`proc-macro2-kotlin`](https://github.com/KotlinMania/proc-macro2-kotlin)
 for identifier validation in the `Fallback` token-parser, mirroring the
 `unicode_ident::is_xid_start` / `unicode_ident::is_xid_continue` calls in the

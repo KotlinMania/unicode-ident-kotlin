@@ -1,6 +1,7 @@
 // port-lint: tests tests/compare.rs
 package io.github.kotlinmania.unicodeident
 
+import io.github.kotlinmania.unicodeident.tests.tables.byName
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -94,6 +95,50 @@ class UnicodeIdentTest {
             assertEquals(isXidStartCodePoint(ch.code), isXidStart(ch))
             assertEquals(isXidContinueCodePoint(ch.code), isXidContinue(ch))
         }
+    }
+
+    @Test
+    fun compareAllImplementations() {
+        val xidStartRanges = byName.single { it.first == "XID_Start" }.second
+        val xidContinueRanges = byName.single { it.first == "XID_Continue" }.second
+        var startRangeIndex = 0
+        var continueRangeIndex = 0
+        var scalarCount = 0
+        var bmpScalarCount = 0
+
+        // Character iteration covers every Unicode scalar and excludes UTF-16 surrogates.
+        // The independent Unicode 17 range tables supply the expected classifications.
+        for (cp in 0..0x10FFFF) {
+            if (cp in 0xD800..0xDFFF) continue
+
+            while (startRangeIndex < xidStartRanges.size && cp > xidStartRanges[startRangeIndex].last) {
+                startRangeIndex++
+            }
+            while (continueRangeIndex < xidContinueRanges.size && cp > xidContinueRanges[continueRangeIndex].last) {
+                continueRangeIndex++
+            }
+            val expectedStart = startRangeIndex < xidStartRanges.size && cp >= xidStartRanges[startRangeIndex].first
+            val expectedContinue = continueRangeIndex < xidContinueRanges.size && cp >= xidContinueRanges[continueRangeIndex].first
+            val thoughtToBeStart = isXidStartCodePoint(cp)
+            val thoughtToBeContinue = isXidContinueCodePoint(cp)
+
+            assertEquals(expectedStart, thoughtToBeStart, "XID Start at U+${cp.toString(16)}")
+            assertEquals(expectedContinue, thoughtToBeContinue, "XID Continue at U+${cp.toString(16)}")
+            scalarCount++
+
+            if (cp <= Char.MAX_VALUE.code) {
+                assertEquals(expectedStart, isXidStart(cp.toChar()), "Char XID Start at U+${cp.toString(16)}")
+                assertEquals(expectedContinue, isXidContinue(cp.toChar()), "Char XID Continue at U+${cp.toString(16)}")
+                bmpScalarCount++
+            }
+
+            // unicode-xid: its external comparator requires a Kotlin sibling port.
+            // ucd-trie: its external comparator requires a Kotlin sibling port.
+            // fst: its external comparator requires a Kotlin sibling port.
+            // roaring: its external comparator requires a Kotlin sibling port.
+        }
+        assertEquals(1_112_064, scalarCount)
+        assertEquals(63_488, bmpScalarCount)
     }
 
     // compare.rs also cross-validates isXidStart/isXidContinue against the

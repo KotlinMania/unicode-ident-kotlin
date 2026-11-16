@@ -1,0 +1,42 @@
+
+=== Complete Source Symbol Inventory ===
+Types, API declarations, functions, properties/constants, enum variants and aliases.
+Name/owner presence is distinct from parameter/body/overload parity reported above. Parser warnings remain review requirements.
+MISSING_FILE lib.rs
+MISSING_SYMBOL property ZERO at tmp/unicode-ident/src/lib.rs:258
+MISSING_SYMBOL function is_xid_start at tmp/unicode-ident/src/lib.rs:261
+MISSING_SYMBOL function is_xid_continue at tmp/unicode-ident/src/lib.rs:271
+PRESENT type Align8 at tmp/unicode-ident/src/tables.rs:8 -> src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:23
+PRESENT type Align64 at tmp/unicode-ident/src/tables.rs:10 -> src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:25
+PRESENT property UNICODE_VERSION at tmp/unicode-ident/src/tables.rs:12 -> src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:28
+MISSING_SYMBOL property ASCII_START at tmp/unicode-ident/src/tables.rs:14
+MISSING_SYMBOL property ASCII_CONTINUE at tmp/unicode-ident/src/tables.rs:15
+PRESENT property CHUNK at tmp/unicode-ident/src/tables.rs:17 -> src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:49
+PRESENT property TRIE_START at tmp/unicode-ident/src/tables.rs:19 -> src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:759
+PRESENT property TRIE_CONTINUE at tmp/unicode-ident/src/tables.rs:48 -> src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:762
+PRESENT property LEAF at tmp/unicode-ident/src/tables.rs:164 -> src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:769
+EXTRA_TARGET_SYMBOL property Align8::value at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:23
+EXTRA_TARGET_SYMBOL property Align64::value at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:25
+EXTRA_TARGET_SYMBOL property ASCII_START_HI at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:36
+EXTRA_TARGET_SYMBOL property ASCII_START_LO at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:37
+EXTRA_TARGET_SYMBOL property ASCII_CONTINUE_HI at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:45
+EXTRA_TARGET_SYMBOL property ASCII_CONTINUE_LO at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:46
+EXTRA_TARGET_SYMBOL property trieStartData at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:52
+EXTRA_TARGET_SYMBOL property trieContinueData at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:82
+EXTRA_TARGET_SYMBOL property leafPart0 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:199
+EXTRA_TARGET_SYMBOL property leafPart1 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:234
+EXTRA_TARGET_SYMBOL property leafPart2 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:269
+EXTRA_TARGET_SYMBOL property leafPart3 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:304
+EXTRA_TARGET_SYMBOL property leafPart4 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:339
+EXTRA_TARGET_SYMBOL property leafPart5 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:374
+EXTRA_TARGET_SYMBOL property leafPart6 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:409
+EXTRA_TARGET_SYMBOL property leafPart7 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:444
+EXTRA_TARGET_SYMBOL property leafPart8 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:479
+EXTRA_TARGET_SYMBOL property leafPart9 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:514
+EXTRA_TARGET_SYMBOL property leafPart10 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:549
+EXTRA_TARGET_SYMBOL property leafPart11 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:584
+EXTRA_TARGET_SYMBOL property leafPart12 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:619
+EXTRA_TARGET_SYMBOL property leafPart13 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:654
+EXTRA_TARGET_SYMBOL property leafPart14 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:689
+EXTRA_TARGET_SYMBOL property leafPart15 at src/commonMain/kotlin/io/github/kotlinmania/unicodeident/Tables.kt:724
+Inventory totals: present=7, declaration_only=0, missing=5
